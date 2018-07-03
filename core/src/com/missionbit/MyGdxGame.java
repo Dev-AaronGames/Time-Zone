@@ -15,7 +15,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 
-		System.out.println("Hello World!!!!");
+		System.out.println("Hello World!!!! - Make sure to update every time you make/complete a task");
 	}
 
 	@Override
