@@ -15,7 +15,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 
-		System.out.println("Hellow World");
+		System.out.println("Hello World!!!!");
 	}
 
 	@Override
