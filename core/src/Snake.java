@@ -1,68 +1,48 @@
 
 
+
+import com.badlogic.gdx.graphics.Texture;
+
 import java.awt.Image;
-import java.awt.Rectangle;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 import javax.swing.ImageIcon;
 
 public class Snake {
 
-    public class Sprite {
+  Rectangle hitbox;
+  Vector2 position;
 
-        protected int x;
-        protected int y;
-        protected int width;
-        protected int height;
-        protected boolean visible;
-        protected Image image;
+    Texture img;
 
-        public Sprite(int x, int y) {
 
-            this.x = x;
-            this.y = y;
-            visible = true;
+    public Snake(int x, int y) {
+        img = new Texture();
+        hitbox = new Rectangle();
+        position = new Vector2(x, y);
+
+        hitbox.set(x, y, img.getWidth(), img.getHeight());
+    }
+
+        public void update(){
+
+if ()
+
         }
 
-        protected void getImageDimensions() {
+        public void draw(SpriteBatch batch){
 
-            width = image.getWidth(null);
-            height = image.getHeight(null);
+
+            batch.draw(img, position.x, position.y);
         }
 
-        protected void loadImage(String imageName) {
-
-            ImageIcon ii = new ImageIcon(imageName);
-            image = ii.getImage();
-        }
-
-        public Image getImage() {
-            return image;
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        public boolean isVisible() {
-            return visible;
-        }
-
-        public void setVisible(Boolean visible) {
-            this.visible = visible;
-        }
-
-        public Rectangle getBounds() {
-            return new Rectangle(x, y, width, height);
-        }
     }
 
 
 
-}
 
 
 
