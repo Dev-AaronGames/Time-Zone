@@ -1,4 +1,4 @@
-public class Thug {
+public class Thug extends Snake {
 
     public Thug() {
 
