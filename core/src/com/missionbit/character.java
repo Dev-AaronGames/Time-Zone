@@ -15,7 +15,6 @@ public class character extends ApplicationAdapter {
 	Texture img;
 
 
-
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
