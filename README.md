@@ -44,3 +44,10 @@ Snakes will deal 5 damage to the players 100 hp listed at the top left of the sc
 
     Controls 
     Arrows on the bottom left corner to move, and a use item button on the upper bottom right. 
+    
+    
+ 
+	Reserch the war so that I know what detail is needed to be accomplised to win the war
+		NOP WAR - KILL NOP
+		WWI - SAVE THE PRINCE
+		WWII - KILL HITLER
