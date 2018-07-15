@@ -2,13 +2,13 @@ package com.missionbit.Levels;
 
 import com.badlogic.gdx.graphics.Camera;
 
-public class LevelFive extends MainMenu {
-    public LevelFive(Camera gameCamera) {
+public class Level5 extends Map {
+    public Level5(Camera gameCamera) {
         super(gameCamera);
     }
 
-    // Solution: Free the slaves without getting caught.
-    private class Slaves {
+    // Solution: Become a free person - Complete
+    //private class ______ {
 
-    }
+    //}
 }

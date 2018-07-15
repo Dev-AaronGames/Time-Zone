@@ -2,12 +2,12 @@ package com.missionbit.Levels;
 
 import com.badlogic.gdx.graphics.Camera;
 
-public class LevelFour extends MainMenu{
-    public LevelFour(Camera gameCamera) {
+public class Level4 extends Map {
+    public Level4(Camera gameCamera) {
         super(gameCamera);
     }
 
-    //Solution: Defeat Napoleon.
+    //Solution: Defeat Napoleon. - Complete
     private class Napoleon {
 
     }
