@@ -2,7 +2,6 @@ package com.missionbit.Actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 public class Snake {
@@ -11,7 +10,7 @@ public class Snake {
     boolean atkIsActive;
     Rectangle hurtbox;
     Rectangle hitbox;
-  Vector2 position;
+    Vector2 position;
 
     Texture img;
 
@@ -24,10 +23,10 @@ public class Snake {
         hitbox.set(x, y, img.getWidth(), img.getHeight());
     }
 
-        public void update(){
+    public void update() {
 
 
-        if (Gdx.input.justTouched()){
+        if (Gdx.input.justTouched()) {
             atkIsActive = true;
 
 
@@ -38,17 +37,15 @@ public class Snake {
 
 //            int hp = - 10 int hp;
 
+//if (hitbox.contains(hurtbox))
+//int hp = playerhp -10;
 
 
+     //   public void draw (SpriteBatch batch){
 
 
-
-        }
-
-        public void draw(SpriteBatch batch){
-
-
-            batch.draw(img, position.x, position.y);
-        }
+       //     batch.draw(img, position.x, position.y);
+        //}
 
     }
+}

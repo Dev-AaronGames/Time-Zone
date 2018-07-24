@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="8" height="8" tilewidth="32" tileheight="32" infinite="0" nextobjectid="15">
+ <tileset firstgid="1" source="../../../../Nature_Tiles.tsx"/>
+ <tileset firstgid="65" name="LevelThree" tilewidth="1750" tileheight="1313" tilecount="1" columns="0">
+  <grid orientation="orthogonal" width="1" height="1"/>
+  <tile id="0">
+   <image width="256" height="256" source="../../../../LevelOne.png"/>
+  </tile>
+ </tileset>
+ <tileset firstgid="66" source="../../../../DungeonTileset.tsx"/>
+ <tileset firstgid="126" source="../../../../GameVortex.tsx"/>
+ <tileset firstgid="135" source="../../../../Ghost.tsx"/>
+ <tileset firstgid="185" name="VortexChained" tilewidth="32" tileheight="32" tilecount="6" columns="2">
+  <image source="Backround_Tileset/VortexChained.png" width="64" height="96"/>
+ </tileset>
+ <tileset firstgid="191" source="../../../../spikes.tsx"/>
+ <objectgroup name="Platform">
+  <object id="1" x="32.5" y="190.5">
+   <polygon points="0,0 64,1.5 64,34 1.5,34"/>
+  </object>
+  <object id="2" x="161" y="65.5">
+   <polygon points="0,0 63,0 64,31.5 0.5,29.5"/>
+  </object>
+  <object id="3" x="31" y="191.5">
+   <polygon points="0,0 64,-0.5 65,32 0.5,32"/>
+  </object>
+  <object id="4" name="Platform" type="Walk" x="159.5" y="62.5">
+   <polygon points="0,0 0.5,33 65.5,34 64,1"/>
+  </object>
+  <object id="5" name="Platform" type="Walk" x="33" y="191.5">
+   <polygon points="0,0 63.5,0.5 64,33 -1.5,32.5"/>
+  </object>
+  <object id="6" name="Cloud" type="Walk" x="95.5" y="128.5">
+   <polygon points="0,0 96,-1.5 97,31 1,31.5"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="Character">
+  <object id="7" name="Character Start" type="Location" x="4" y="220">
+   <polygon points="0,0 27,0 25.5,35 -1,35"/>
+  </object>
+  <object id="8" name="Character Exit" type="Location" x="223.5" y="1">
+   <polygon points="0,0 32.5,0 32.5,32 1.5,32"/>
+  </object>
+  <object id="9" name="Character Entrance" type="Location" x="31" y="1.5">
+   <polygon points="0,0 1,31.5 -31,31.5 -30.5,0"/>
+  </object>
+ </objectgroup>
+ <layer name="Backround" width="8" height="8">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,38,39,40,0,0,0,
+0,0,38,39,40,0,0,0,
+0,0,0,0,0,0,0,0,
+65,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="Objects" width="8" height="8">
+  <data encoding="csv">
+185,0,0,0,0,0,0,126,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,1,1,0,
+0,0,0,0,0,0,0,0,
+0,0,0,38,39,40,0,0,
+0,0,0,0,0,0,0,0,
+0,1,1,191,191,191,191,191,
+135,0,0,196,196,196,196,196
+</data>
+ </layer>
+ <objectgroup name="Death">
+  <object id="10" name="Spike" type="Killer" x="111.5" y="253.5">
+   <polygon points="0,0 5,-40.5 16,0.5"/>
+  </object>
+  <object id="11" name="Spike" type="Killer" x="145" y="254">
+   <polygon points="0,0 5,-41.5 12.5,1"/>
+  </object>
+  <object id="12" name="Spike" type="Killer" x="191" y="254.5">
+   <polygon points="0,0 -14.5,1 -7.5,-40.5"/>
+  </object>
+  <object id="13" name="Spike" type="Killer" x="209" y="251.5">
+   <polygon points="0,0 6,-38.5 13.5,2"/>
+  </object>
+  <object id="14" name="Spike" type="Killer" x="238.5" y="255">
+   <polygon points="0,0 7.5,-43.5 16.5,0.5"/>
+  </object>
+ </objectgroup>
+</map>
