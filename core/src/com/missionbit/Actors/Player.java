@@ -1,6 +1,7 @@
 package com.missionbit.Actors;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -9,84 +10,209 @@ import com.badlogic.gdx.math.Vector2;
 
 
 public class Player {
-
+    Texture runSheet,attackSheet,jumpSheet;
+    private com.badlogic.gdx.graphics.g2d.Animation<TextureRegion> runanim,afkanim,jumpanim,fireanim,atackanim,dedanim;
     private Animation an;
     boolean atkIsActive;
-    Rectangle hurtbox;
-    Rectangle hitbox;
+    Rectangle hurtbox2;
+    Rectangle hitbox2;
     Vector2 position;
     private Vector2 velocity;
     private static final int GRAVITY = -15;
-private boolean faceRight,isAttacking;
+    private boolean isAttacking;
     private int numJumps;
-
+    private int hp;
+    private int maxhp = 100;
     Texture img;
+    private float stateTime;
+    private enum AnimState{JUMPING,ATTACKING,RUNING,IDOLING,DEATH,FIRE}
+    private AnimState currentState, previousState;
+    private boolean isFire;
 
+    public Vector2 getPosition() {
+        return position;
+    }
+
+    class playerhp {
+    }
     public Player(int hp, int x, int y) {
         this.hp = 100;
 
+        currentState = AnimState.IDOLING;
+        previousState = currentState;
 
         velocity = new Vector2();
-        img = new Texture("Ghost.png");
-        hitbox = new Rectangle();
+        img = new Texture("Characters/Ghost.png");
+        hitbox2 = new Rectangle();
         position = new Vector2(x, y);
-        hurtbox = new Rectangle();
-        hitbox.set(x, y, img.getWidth(), img.getHeight());
-        an = new Animation(new TextureRegion(img), 50, 7f, 5, 10);
-faceRight = true;
-isAttacking = true;
+        hurtbox2 = new Rectangle();
+        hitbox2.set(x, y, img.getWidth(), img.getHeight());
+
+        isAttacking = false;
+
+        stateTime = 0f;
+//Specifing which frames to use
+        TextureRegion[][] tmp1 = TextureRegion.split(img, img.getWidth() / 10, img.getHeight() / 5);
+        com.badlogic.gdx.utils.Array<TextureRegion> afkFrames = new com.badlogic.gdx.utils.Array<TextureRegion>();
+        com.badlogic.gdx.utils.Array<TextureRegion> runFrames = new com.badlogic.gdx.utils.Array<TextureRegion>();
+        com.badlogic.gdx.utils.Array<TextureRegion> attackFrames = new com.badlogic.gdx.utils.Array<TextureRegion>();
+        com.badlogic.gdx.utils.Array<TextureRegion> fireFrames = new com.badlogic.gdx.utils.Array<TextureRegion>();
+        com.badlogic.gdx.utils.Array<TextureRegion> dedFrames = new com.badlogic.gdx.utils.Array<TextureRegion>();
+
+
+        for (int i = 0; i < 10 ; i++){
+            afkFrames.add(tmp1[0][i]);
+        }
+        for (int i = 0; i < 10 ; i++){
+            fireFrames.add(tmp1[1][i]);
+        }
+        for (int i = 0; i < 10 ; i++){
+            runFrames.add(tmp1[2][i]);
+        }
+        for (int i = 0; i < 10 ; i++){
+            attackFrames.add(tmp1[3][i]);
+        }
+        for (int i = 0; i < 10 ; i++){
+            dedFrames.add(tmp1[4][i]);
+        }
+        afkanim = new com.badlogic.gdx.graphics.g2d.Animation<TextureRegion>(.50f,afkFrames);
+
+        runanim = new com.badlogic.gdx.graphics.g2d.Animation<TextureRegion>(.17f,runFrames);
+
+        atackanim = new com.badlogic.gdx.graphics.g2d.Animation<TextureRegion>(.20f,attackFrames);
+
+        fireanim = new com.badlogic.gdx.graphics.g2d.Animation<TextureRegion>(.25f,fireFrames);
+
+        dedanim = new com.badlogic.gdx.graphics.g2d.Animation<TextureRegion>(.25f,dedFrames);
+
 
 
     }
 
+   public void atack(){
+
+        if (!isAttacking){
+            isAttacking = true;
+        }
+   }
+
     public void jump() {
-        velocity.y = 500;
+        velocity.y = 275;
     }
 
     public void resetAnim() {
-velocity.x = 0;
+        velocity.x = 0;
     }
 
     public void moveLeft() {
         velocity.x = -150;
-       faceRight = false;
+
     }
 
     public void moveRight() {
-        velocity.x = 72;
-        faceRight = true;
+        velocity.x = 150;
+
+    }
+
+    public void fire(){
+        if (isFire = true){
+
+    }
     }
 
 
-    public void update(float dt) {
 
+    public  TextureRegion getTexture(float dt) {
+        TextureRegion region;
+
+
+        switch (currentState) {
+            case ATTACKING:
+                region = atackanim.getKeyFrame(stateTime,false);
+                break;
+            case RUNING:
+                region = runanim.getKeyFrame(stateTime,true);
+                break;
+            case FIRE:
+                region = fireanim.getKeyFrame(stateTime,false);
+                break;
+            case DEATH:
+                region = dedanim.getKeyFrame(stateTime,false);
+                break;
+            case IDOLING:
+            case JUMPING:
+                default:
+                region = afkanim.getKeyFrame(stateTime,true);
+
+        }
+
+        if (velocity.x < 0 && !region.isFlipX()) {
+            region.flip(true,false);
+        } else if (velocity.x > 0 && region.isFlipX()) {
+            region.flip(true,false);
+        }
+
+
+
+        stateTime = currentState == previousState ? stateTime + dt : 0;
+        previousState = currentState;
+
+
+
+        return region;
+    }
+    public void update(float dt) {
+        stateTime += Gdx.graphics.getDeltaTime();
 //        if ( hp= 0)
 //            System.out.println("");
         if (position.y > 0 ){
             velocity.add(0, GRAVITY);
         }
-        an.update(dt);
 
         velocity.scl(dt);
         position.add(velocity);
         velocity.scl(1 / dt);
+
         if (position.y < 0) {
             position.y = 0;
+        }
+
+        if (isAttacking){
+            currentState = AnimState.ATTACKING;
+            if (atackanim.isAnimationFinished(stateTime))
+              { System.out.println("sup");
+                isAttacking = false;
+            }
+        }
+
+        else if (isFire){
+            currentState = AnimState.FIRE;
+            if (fireanim.isAnimationFinished(stateTime)){
+                isFire = false;
+            }
 
 
-}
+        }
+        else if (position.y != 0){
+            currentState = AnimState.JUMPING;
+        }
+        else if (velocity.x != 0){
+            currentState = AnimState.RUNING;
+        }
+        else {
+            currentState = AnimState.JUMPING;
+        }
 
 
 
     }
 
-    int hp;
+
 
 
     public void draw(SpriteBatch batch) {
 
 
-        batch.draw(an.getFrame(), position.x, position.y);
     }
 
 
