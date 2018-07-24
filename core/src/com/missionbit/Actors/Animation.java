@@ -12,36 +12,19 @@ public class Animation {
         frames = new Array<TextureRegion>();
         int frameWidth = region.getRegionWidth() / row;
         int frameHeight = region.getRegionHeight() / col;
-
-        /*
-        Add frames from the spritesheet.
-        The reason why I have a count is because my spritesheet looks like:
-
-            [1][2][3]
-            [4][5][6]
-            [7][8][X]
-
-         where X is wasted space. Without the count check, my nested for loop will add that wasted
-         space as a frame, bulking up the size of my animation array.
-         */
-        int count = 0;
-        for (int r = 0; r < row; r++) {
-            for (int c = 0; c < col; c++) {
-                if (count < frameCount) {
-                    frames.add(
-                            new TextureRegion(
-                                    region,
-                                    c * frameWidth,
-                                    r * frameHeight,
-                                    frameWidth,
-                                    frameHeight
-                            )
-                    );
-                    count++;
-                }
+        for (int y = 0; y < col; y++) {
+            for (int x = 0; x < row; x++) {
+                frames.add(
+                        new TextureRegion(
+                                region,
+                                x * frameWidth,
+                                y * frameHeight,
+                                frameWidth,
+                                frameHeight
+                        )
+                );
             }
         }
-
         this.frameCount = frameCount;
         maxFrameTime = cycleTime / frameCount;
         frame = 0;
@@ -70,5 +53,9 @@ public class Animation {
         for (TextureRegion textureRegion : frames) {
             textureRegion.flip(true, false);
         }
+
+    }
+    public TextureRegion getKeyFrame ( float stateTime, boolean b){
+        return null;
     }
 }
