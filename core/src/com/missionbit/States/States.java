@@ -22,7 +22,7 @@ public abstract class States implements Screen {
     public Texture playBtn;
     public boolean win = false;
     public boolean lose = false;
-
+    SpriteBatch batch;
     private TmxMapLoader maploader;
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
@@ -52,7 +52,7 @@ public abstract class States implements Screen {
     protected abstract void drawGame();
 
     public BitmapFont font;
-    public SpriteBatch batch;
+
 
     public States(MyGdxGame game) {
         this.game = game;

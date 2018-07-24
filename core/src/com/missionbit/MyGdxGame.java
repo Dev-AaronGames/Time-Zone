@@ -20,7 +20,7 @@ public class MyGdxGame extends Game {
 	OrthographicCamera camera;
 
 
-	SpriteBatch batch;
+	public SpriteBatch batch;
 
 	Player ghost;
 	ShapeRenderer sr;

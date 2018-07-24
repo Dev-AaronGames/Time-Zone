@@ -2,7 +2,7 @@ package com.missionbit.States;
 
 import com.missionbit.MyGdxGame;
 
-public class Play extends States {
+public abstract class Play extends States {
     public Play(MyGdxGame game) {
         super(game);
     }

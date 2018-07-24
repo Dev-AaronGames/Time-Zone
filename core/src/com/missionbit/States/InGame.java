@@ -51,7 +51,7 @@ public class InGame extends States {
         world = new World(new Vector2(0, -9.8f), true);
         debugRenderer = new Box2DDebugRenderer();
 
-        ghost = new Ghost(50, 100, this);
+        ghost = new Ghost(50, 100, 100);
         thug = new Thug(100, 200, this);
         controller = new Controls(camera);
 

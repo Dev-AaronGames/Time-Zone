@@ -72,7 +72,7 @@ public class PlayState extends States {
     @Override
     public void drawGame() {
         game.batch.begin();
-        game.font.draw(batch, this.getClass().toString(), 0, MyGdxGame.HEIGHT);
+
         game.batch.end();
 
         if (DEBUG) {

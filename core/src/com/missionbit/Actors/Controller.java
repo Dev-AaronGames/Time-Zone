@@ -48,17 +48,17 @@ correctly implement touchUp.
 
         this.camera = camera;
 
-        Image left = new Image(new Texture("LeftButton.png"));
+        Image left = new Image(new Texture("Controls/LeftButton.png"));
         left.setPosition(0, 0);
         leftHitbox = new Rectangle(left.getX(), left.getY(), left.getWidth(), left.getHeight());
         buttons.add(left);
 
-        Image right = new Image(new Texture("RightButton.png"));
+        Image right = new Image(new Texture("Controls/RightButton.png"));
         right.setPosition(100, 0);
         rightHitbox = new Rectangle(right.getX(), right.getY(), right.getWidth(), right.getHeight());
         buttons.add(right);
 
-        Image jump = new Image(new Texture("jump.png"));
+        Image jump = new Image(new Texture("Controls/Jump.png"));
         jump.setPosition(67, 100);
         jumpHitbox = new Rectangle(jump.getX() , jump.getY() , jump.getWidth() , jump.getHeight() );
         buttons.add(jump);

@@ -42,14 +42,14 @@ public class Player {
         previousState = currentState;
 
         velocity = new Vector2();
-        img = new Texture("Ghost.png");
+        img = new Texture("Characters/Ghost.png");
         hitbox2 = new Rectangle();
         position = new Vector2(x, y);
         hurtbox2 = new Rectangle();
         hitbox2.set(x, y, img.getWidth(), img.getHeight());
 
         isAttacking = false;
-        img = new Texture("Ghost.png");
+
         stateTime = 0f;
 //Specifing which frames to use
         TextureRegion[][] tmp1 = TextureRegion.split(img, img.getWidth() / 10, img.getHeight() / 5);

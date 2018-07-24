@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Ghost  {
     Texture img;
-    protected Ghost(int hp, int x, int y) {
+   public Ghost(int hp, int x, int y) {
 
         img = new Texture("Ghost.png");
     }
