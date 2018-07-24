@@ -1,43 +1,69 @@
 package com.missionbit.States;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.missionbit.Actors.Controller;
-import com.missionbit.Actors.Player;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.missionbit.MyGdxGame;
 
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
+
 public abstract class States implements Screen {
-    final MyGdxGame game;
-    public TiledMapRenderer mapRenderer;
+    public MyGdxGame game;
+    public static final float PTM = 1/32f; //PTM = Pixels to Meters
     public OrthographicCamera camera;
-    private Controller controller;
+    public Texture background;
+    public Texture playBtn;
+    public boolean win = false;
+    public boolean lose = false;
+
+    private TmxMapLoader maploader;
+    private TiledMap map;
+    private OrthogonalTiledMapRenderer renderer;
+
+    private World world;
 
 
+    String[] Levels = new String[]{"Map", "LevelOne", "LevelTwo", "LevelThree", "LevelFour", "LevelFive", "LevelSix", "LevelSeven", "Present"};
+    private AtomicIntegerFieldUpdater<String> properties;
 
-    SpriteBatch batch;
-    Texture img;
-    Player ghost;
-    ShapeRenderer sr;
-    Texture Background;
+    public States(Camera gameCamera) {
 
-    protected States(MyGdxGame game) {
+    }
+
+    public States() {
+
+    }
+
+    public void game(MyGdxGame game) {
         this.game = game;
-        sr = new ShapeRenderer();
+        camera= new OrthographicCamera(MyGdxGame.WIDTH * PTM, MyGdxGame.HEIGHT * PTM);
+        camera.translate(camera.viewportWidth / 2 , camera.viewportHeight / 2, 0);
+        camera.update();
+
+    }
+
+    protected abstract void drawGame();
+
+    public BitmapFont font;
+    public SpriteBatch batch;
+
+    public States(MyGdxGame game) {
+        this.game = game;
+        batch = game.batch;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false,MyGdxGame.WIDTH,MyGdxGame.HEIGHT);
-        controller = new Controller(camera);
-        batch = new SpriteBatch();
-        ghost = new Player(100,100,500);
-        System.out.println("Hello World!!!! - Make sure to update every time you make/complete a task.");
+        camera.setToOrtho(false, MyGdxGame.WIDTH, MyGdxGame.HEIGHT);
 
     }
 
     public abstract void update(float dt);
-    public abstract void drawGame();
+    public abstract void drawGame(String s);
 
     @Override
     public void show() {
@@ -47,10 +73,9 @@ public abstract class States implements Screen {
     @Override
     public void render(float delta) {
         update(delta);
-        drawGame();
-        batch.setProjectionMatrix(camera.combined);
         camera.update();
-
+        batch.setProjectionMatrix(camera.combined);
+        drawGame();
     }
 
     @Override
@@ -75,6 +100,12 @@ public abstract class States implements Screen {
 
     @Override
     public void dispose() {
+        background.dispose();
+        playBtn.dispose();
+    }
 
+
+    public AtomicIntegerFieldUpdater<String> getProperties() {
+        return properties;
     }
 }

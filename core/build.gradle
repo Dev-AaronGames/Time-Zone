@@ -13,4 +13,6 @@ eclipse.project {
 dependencies {
     implementation 'com.mobidevelop.robovm:robovm-rt:2.3.3'
     implementation 'com.mobidevelop.robovm:robovm-rt:2.3.3'
+    implementation 'net.java.jinput:jinput:2.0.5'
+    implementation 'org.lwjgl.lwjgl:lwjgl:2.9.2'
 }
