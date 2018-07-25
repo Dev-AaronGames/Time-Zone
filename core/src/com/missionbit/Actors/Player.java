@@ -2,14 +2,11 @@ package com.missionbit.Actors;
 
 import com.badlogic.gdx.Gdx;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-
 import com.badlogic.gdx.math.Rectangle;
-
 import com.badlogic.gdx.math.Vector2;
 import com.missionbit.States.InGame;
 
@@ -49,10 +46,8 @@ public class Player {
     }
 
     class playerhp {
-
     }
-
-    public Player(int hp, int x, InGame y) {
+    public Player(int hp, int x, int y) {
         this.hp = 100;
         currentState = AnimState.IDOLING;
         previousState = currentState;
@@ -67,6 +62,9 @@ public class Player {
 
 //Specifying which frames to use
 
+        isAttacking = false;
+
+        stateTime = 0f;
         TextureRegion[][] tmp1 = TextureRegion.split(img, img.getWidth() / 10, img.getHeight() / 5);
         com.badlogic.gdx.utils.Array<TextureRegion> afkFrames = new com.badlogic.gdx.utils.Array<TextureRegion>();
         com.badlogic.gdx.utils.Array<TextureRegion> runFrames = new com.badlogic.gdx.utils.Array<TextureRegion>();
@@ -98,29 +96,36 @@ public class Player {
         fireanim = new com.badlogic.gdx.graphics.g2d.Animation<TextureRegion>(.25f,fireFrames);
         dedanim = new com.badlogic.gdx.graphics.g2d.Animation<TextureRegion>(.25f,dedFrames);
     }
-    public void atack(){
+
+   public void atack(){
+
         if (!isAttacking){
             isAttacking = true;
         }
-    }
+   }
+
     public void jump() {
         velocity.y = 275;
     }
-    public void resetAnim() {
+    public void resetAnim(){
         velocity.x = 0;
     }
     public void moveLeft() {
         velocity.x = -150;
+
     }
     public void moveRight() {
         velocity.x = 150;
     }
     public void fire(){
-        if (isFire = true){
+        if (isFire == true){
+            isFire = true;
         }
     }
-    public  TextureRegion getTexture(float dt) {
+
+    public TextureRegion getTexture(float dt) {
         TextureRegion region;
+
         switch (currentState) {
             case ATTACKING:
                 region = atackanim.getKeyFrame(stateTime,false);
@@ -136,16 +141,20 @@ public class Player {
                 break;
             case IDOLING:
             case JUMPING:
-            default:
+                default:
                 region = afkanim.getKeyFrame(stateTime,true);
+
         }
+
         if (velocity.x < 0 && !region.isFlipX()) {
             region.flip(true,false);
         } else if (velocity.x > 0 && region.isFlipX()) {
             region.flip(true,false);
         }
+
         stateTime = currentState == previousState ? stateTime + dt : 0;
         previousState = currentState;
+
         return region;
     }
     public void update(float dt) {
@@ -158,29 +167,27 @@ public class Player {
         velocity.scl(dt);
         position.add(velocity);
         velocity.scl(1 / dt);
+
         if (position.y < 0) {
             position.y = 0;
         }
+
         if (isAttacking){
             currentState = AnimState.ATTACKING;
             if (atackanim.isAnimationFinished(stateTime))
             { System.out.println("sup");
                 isAttacking = false;
             }
-        }
-        else if (isFire){
+        } else if (isFire) {
             currentState = AnimState.FIRE;
-            if (fireanim.isAnimationFinished(stateTime)){
+            if (fireanim.isAnimationFinished(stateTime)) {
                 isFire = false;
             }
-        }
-        else if (position.y != 0){
+        } else if (position.y != 0){
             currentState = AnimState.JUMPING;
-        }
-        else if (velocity.x != 0){
+        } else if (velocity.x != 0){
             currentState = AnimState.RUNING;
-        }
-        else {
+        } else {
             currentState = AnimState.JUMPING;
         }
     }

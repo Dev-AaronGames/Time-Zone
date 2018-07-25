@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -30,9 +29,9 @@ correctly implement touchUp.
  */
 
 
-    private Rectangle leftHitbox, rightHitbox ,jumpHitbox;
-    private Circle attackHitbox;
-    private boolean leftPressed, rightPressed, jumpPressed, attackPressed;
+    private Rectangle leftHitbox, rightHitbox ,jumpHitbox,attackHitbox,fireHitbox;
+
+    private boolean leftPressed, rightPressed, jumpPressed, attackPressed,firePressed;
 
 
     class TouchInfo {
@@ -49,25 +48,31 @@ correctly implement touchUp.
 
         this.camera = camera;
 
-        Image left = new Image(new Texture("LeftButton.png"));
+        Image left = new Image(new Texture("Controls/LeftButton.png"));
         left.setPosition(0, 0);
         leftHitbox = new Rectangle(left.getX(), left.getY(), left.getWidth(), left.getHeight());
         buttons.add(left);
 
-        Image right = new Image(new Texture("RightButton.png"));
+        Image right = new Image(new Texture("Controls/RightButton.png"));
         right.setPosition(100, 0);
         rightHitbox = new Rectangle(right.getX(), right.getY(), right.getWidth(), right.getHeight());
         buttons.add(right);
 
-        Image jump = new Image(new Texture("RightButton.png"));
-        jump.setPosition(500, 50);
+        Image jump = new Image(new Texture("Controls/Jump.png"));
+        jump.setPosition(67, 100);
         jumpHitbox = new Rectangle(jump.getX() , jump.getY() , jump.getWidth() , jump.getHeight() );
         buttons.add(jump);
 
-        Image attack = new Image(new Texture("RightButton.png"));
-        attack.setPosition(500,150);
-        attackHitbox = new Circle(attack.getX() + attack.getWidth() / 2, attack.getY() + attack.getHeight() / 2, attack.getWidth() / 2);
-//        buttons.add(attack);
+        Image attack = new Image(new Texture("pixil-frame-0 (1).png"));
+        attack.setPosition(600,80);
+        attackHitbox = new Rectangle(attack.getX() , attack.getY() , attack.getWidth() , attack.getHeight());
+        buttons.add(attack);
+
+        Image fire = new Image(new Texture("pixil-frame-0 (2).png"));
+        fire.setPosition(600,160);
+        fireHitbox = new Rectangle(fire.getX() , fire.getY() , fire.getWidth() , fire.getHeight());
+        buttons.add(fire);
+
 
         Gdx.input.setInputProcessor(this);
         for (int i = 0; i < 5; i++) {
@@ -92,7 +97,8 @@ correctly implement touchUp.
         sr.rect(leftHitbox.x, leftHitbox.y, leftHitbox.width, leftHitbox.height);
         sr.rect(rightHitbox.x, rightHitbox.y, rightHitbox.width, rightHitbox.height);
         sr.rect(jumpHitbox.x, jumpHitbox.y, jumpHitbox.width, jumpHitbox.height);
-//        sr.circle(attackHitbox.x, attackHitbox.y, attackHitbox.radius);
+        sr.rect(attackHitbox.x, attackHitbox.y, attackHitbox.width,attackHitbox.height);
+        sr.rect(fireHitbox.x, fireHitbox.y, fireHitbox.width,fireHitbox.height);
     }
 
     public boolean isLeftPressed() {
@@ -111,6 +117,8 @@ correctly implement touchUp.
         return attackPressed;
     }
 
+    public boolean isFirePressed() { return firePressed; }
+
     @Override
     public boolean keyDown(int keycode) {
         return false;
@@ -121,18 +129,18 @@ correctly implement touchUp.
         return false;
     }
 
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
+           @Override
+        public boolean keyTyped(char character) {
+            return false;
+        }
 
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        Vector3 touchPos = new Vector3(screenX, screenY, 0);
-        camera.unproject(touchPos);
+        @Override
+        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+            Vector3 touchPos = new Vector3(screenX, screenY, 0);
+            camera.unproject(touchPos);
 
 
-        if (pointer < 5) {
+            if (pointer < 5) {
             touches.get(pointer).touchX = touchPos.x;
             touches.get(pointer).touchY = touchPos.y;
             touches.get(pointer).touched = true;
@@ -150,10 +158,15 @@ correctly implement touchUp.
                 jumpPressed = true;
                 System.out.println("hi");
             }
-//            else if (attackHitbox.contains(touchPos.x, touchPos.y)) {
-//
-//                attackPressed = true;
-//            }
+            else if (attackHitbox.contains(touchPos.x, touchPos.y)) {
+
+                attackPressed = true;
+
+            }  else if (fireHitbox.contains(touchPos.x, touchPos.y)) {
+
+               firePressed = true;
+
+            }
             return true;
         }
 
@@ -175,6 +188,7 @@ if (pointer < 5){
     rightPressed = false;
     jumpPressed = false;
     attackPressed = false;
+    firePressed = false;
 }
 
         return true;
@@ -207,10 +221,13 @@ if (pointer < 5){
                 jumpPressed = true;
 
             }
-//            else if (attackHitbox.contains(touchPos.x, touchPos.y)) {
-//
-//                attackPressed = true;
-//            }
+            else if (attackHitbox.contains(touchPos.x, touchPos.y)) {
+
+                attackPressed = true;
+            }else if (fireHitbox.contains(touchPos.x, touchPos.y)) {
+
+                firePressed = true;
+            }
             return true;
         }
 

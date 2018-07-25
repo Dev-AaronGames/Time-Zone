@@ -4,9 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -28,13 +26,11 @@ import static jdk.nashorn.internal.runtime.regexp.joni.Config.DEBUG;
 public class PlayState extends States {
     public World world;
     public OrthographicCamera camera;
-
+    private Controller controller;
     private TiledMapRenderer tiledMapRenderer;
     private TiledMap tiledMap;
-
-    Ghost ghost;
-    Controller controller;
-
+    //    Ghost ghost;
+    Player ghost;
     Body groundBody;
     BodyDef groundDef;
     PolygonShape groundShape;
@@ -43,9 +39,9 @@ public class PlayState extends States {
     public PlayState(final Camera game) {
         super(game);
 
-        ghost = new Player(100,100,100);
+        ghost = new Player(100, 100, 100);
         controller = new Controller(camera) {
-            @Override
+                @Override
             public Controller[] getControllers() {
                 return new Controller[0];
             }
@@ -99,63 +95,83 @@ public class PlayState extends States {
             public String getName() {
                 return null;
             }
-        };
-        groundDef = new BodyDef();
-
+            };
+            groundDef = new BodyDef();
+            
         groundDef = new BodyDef();
         groundShape = new PolygonShape();
 
-        Array<Body> grounds = new Array<Body>();
-        int counter = 0;
-        for (PolygonMapObject obj : tiledMap.getLayers().get("Collision").getObjects().getByType(PolygonMapObject.class)) {
-            groundDef.position.set(obj.getPolygon().getX() * States.PTM, obj.getPolygon().getY() * States.PTM);
-            grounds.add(world.createBody(groundDef));
-            float[] vertices = obj.getPolygon().getVertices();
-            for (int i = 0; i < vertices.length; i++) {
-                vertices[i] = vertices[i] * States.PTM;
-            }
-            groundShape.set(vertices);
-            grounds.get(counter).createFixture(groundShape, 0.0f);
-            counter++;
+            Array<Body> grounds = new Array<Body>();
+            int counter = 0;
+
         }
 
-    }
+        public PlayState(MyGdxGame game) {
 
-    public PlayState(MyGdxGame game) {
+        }
 
-    }
+        @Override
+        public void render(float delta) {
+            super.render(delta);
+        }
 
-    @Override
-    public void render(float delta) {
-        super.render(delta);
-    }
+        @Override
+        public void update(float dt) {
+            if (controller.isLeftPressed()) {
 
-    @Override
-    public void update(float dt) {
+                ghost.moveLeft();
+            } else if (controller.isRightPressed()) {
+
+                ghost.moveRight();
+
+            } else {
+                ghost.resetAnim();
+
+            }
+
+            if (controller.isJumpPressed()) {
+                ghost.jump();
+            }
+
+            if (controller.isAttackPressed()) {
+                ghost.atack();
+            }
+            if (controller.isFirePressed()) {
+                ghost.fire();
+            }
+
+            ghost.update(Gdx.graphics.getDeltaTime());
+//
         if (Gdx.input.justTouched()) {
             game.setScreen(new InGame(game));
             dispose();
         }
         world.step(1/60f, 6, 2); //Last Thing in this list
+        }
+
+        @Override
+        public void drawGame(String s) {
+
+        }
+
+        @Override
+        public void drawGame() {
+            game.batch.begin();
+            batch.draw(ghost.getTexture(Gdx.graphics.getDeltaTime()), ghost.getPosition().x, ghost.getPosition().y, 250, 250);
+            controller.draw(batch);
+            game.batch.end();
+            game.sr.begin(ShapeRenderer.ShapeType.Line);
+            game.sr.setColor(Color.RED);
+
+
+            game.sr.begin(ShapeRenderer.ShapeType.Line);
+            game.sr.setColor(Color.RED);
+
+            controller.drawDebug(game.sr);
+            game.sr.end();
+        }
     }
 
-    @Override
-    public void drawGame(String s) {
-
-    }
-
-    @Override
-    public void drawGame() {
-        game.batch.begin();
-        batch.draw(ghost.getTexture(Gdx.graphics.getDeltaTime()), ghost.getPosition().x, ghost.getPosition().y, 250, 250);
-        controller.draw(batch);
-        game.batch.end();
-        game.sr.begin(ShapeRenderer.ShapeType.Line);
-        game.sr.setColor(Color.RED);
-        controller.drawDebug(game.sr);
-        game.sr.end();
-    }
-}
 
 
 
