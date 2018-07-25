@@ -17,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.missionbit.States.InGame;
 import com.missionbit.States.States;
 
-public class Character extends Actor{
+public class Character extends InGame{
     public World world;
 
     public static final int GRAVITY = -15;
@@ -40,10 +40,6 @@ public class Character extends Actor{
     private Character tapPosition;
     public TextureRegion getTexture;
 
-    public Character(int x, int y, Thug thug, InGame game) {
-
-        this.game = game;
-    }
 
     public void setDebug(boolean debug) {
         this.debug = debug;
@@ -67,6 +63,7 @@ public class Character extends Actor{
 
 
     public Character(int i, int i1, InGame game) {
+        super();
         setDebug(true);
         this.game = game;
 

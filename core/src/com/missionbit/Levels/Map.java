@@ -5,11 +5,13 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.missionbit.MyGdxGame;
-import com.missionbit.States.States;
+import com.missionbit.States.PlayState;
 
-public class Map extends States{
-    public String[] Level = {"MONGOL CONQUEST", "HUNDRED YEAR WAR", "AMERICAN REVOLUTIONARY WAR", "NAPOLEONIC WARS", "AMERICAN CIVIL WAR", "WORLD WAR I", "WORLD WAR II"};
+public class Map extends PlayState{
+    public String[] level = {"MONGOL CONQUEST", "HUNDRED YEAR WAR", "AMERICAN REVOLUTIONARY WAR", "NAPOLEONIC WARS", "AMERICAN CIVIL WAR", "WORLD WAR I", "WORLD WAR II"};
     protected Sprite LeftButton;
     protected Sprite RightButton;
     protected int page = 0;
@@ -18,6 +20,7 @@ public class Map extends States{
     public MapLayer layer;
     public Object object;
 
+    TiledMap tiledMap;
 
     public Map(Camera gameCamera, MyGdxGame game) {
         super(game);
@@ -32,12 +35,11 @@ public class Map extends States{
 
     public Map(MyGdxGame game) {
         super(game);
-        img = new Texture("Maps/Level1.tmx");
-        img = new Texture("Maps/Map.tmx");
+        tiledMap = new TmxMapLoader().load("Map.xml");
     }
 
     @Override
-    protected void drawGame() {
+    public void drawGame() {
 
     }
 

@@ -1,7 +1,9 @@
 package com.missionbit.States;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
@@ -12,24 +14,93 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.missionbit.Actors.Ghost;
+import com.missionbit.Actors.Player;
 import com.missionbit.MyGdxGame;
+
+import net.java.games.input.Component;
+import net.java.games.input.Controller;
+import net.java.games.input.EventQueue;
+import net.java.games.input.Rumbler;
 
 import static jdk.nashorn.internal.runtime.regexp.joni.Config.DEBUG;
 
 public class PlayState extends States {
     public World world;
-    public Texture camera;
+    public OrthographicCamera camera;
 
     private TiledMapRenderer tiledMapRenderer;
     private TiledMap tiledMap;
+
+    Ghost ghost;
+    Controller controller;
 
     Body groundBody;
     BodyDef groundDef;
     PolygonShape groundShape;
 
 
-    public PlayState(final MyGdxGame game) {
+    public PlayState(final Camera game) {
         super(game);
+
+        ghost = new Player(100,100,100);
+        controller = new Controller(camera) {
+            @Override
+            public Controller[] getControllers() {
+                return new Controller[0];
+            }
+
+            @Override
+            public Type getType() {
+                return null;
+            }
+
+            @Override
+            public Component[] getComponents() {
+                return new Component[0];
+            }
+
+            @Override
+            public Component getComponent(Component.Identifier identifier) {
+                return null;
+            }
+
+            @Override
+            public Rumbler[] getRumblers() {
+                return new Rumbler[0];
+            }
+
+            @Override
+            public boolean poll() {
+                return false;
+            }
+
+            @Override
+            public void setEventQueueSize(int i) {
+
+            }
+
+            @Override
+            public EventQueue getEventQueue() {
+                return null;
+            }
+
+            @Override
+            public PortType getPortType() {
+                return null;
+            }
+
+            @Override
+            public int getPortNumber() {
+                return 0;
+            }
+
+            @Override
+            public String getName() {
+                return null;
+            }
+        };
+        groundDef = new BodyDef();
 
         groundDef = new BodyDef();
         groundShape = new PolygonShape();
@@ -47,6 +118,10 @@ public class PlayState extends States {
             grounds.get(counter).createFixture(groundShape, 0.0f);
             counter++;
         }
+
+    }
+
+    public PlayState(MyGdxGame game) {
 
     }
 
@@ -72,15 +147,13 @@ public class PlayState extends States {
     @Override
     public void drawGame() {
         game.batch.begin();
-        game.font.draw(batch, this.getClass().toString(), 0, MyGdxGame.HEIGHT);
+        batch.draw(ghost.getTexture(Gdx.graphics.getDeltaTime()), ghost.getPosition().x, ghost.getPosition().y, 250, 250);
+        controller.draw(batch);
         game.batch.end();
-
-        if (DEBUG) {
-            ShapeRenderer sr = new ShapeRenderer();
-            sr.begin(ShapeRenderer.ShapeType.Line);
-            sr.setColor(Color.RED);
-            sr.end();
-        }
+        game.sr.begin(ShapeRenderer.ShapeType.Line);
+        game.sr.setColor(Color.RED);
+        controller.drawDebug(game.sr);
+        game.sr.end();
     }
 }
 

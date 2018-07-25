@@ -1,23 +1,32 @@
 package com.missionbit.Levels;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.missionbit.MyGdxGame;
-import com.missionbit.States.States;
+import com.missionbit.States.PlayState;
 
 import static com.missionbit.MyGdxGame.HEIGHT;
 import static com.missionbit.MyGdxGame.WIDTH;
 
-public class Level5 extends States {
+public class Level5 extends PlayState {
     TiledMap tiledMap;
-//    public Level5(Camera gameCamera) {
-//        super(gameCamera, game);
-//    }
+
+    public Level5(Camera gameCamera) {
+        super(gameCamera);
+        tiledMap = new TmxMapLoader().load("Level5.xml");
+
+        if (win == true) {
+            tiledMap = new TmxMapLoader().load("Maps/Level6.xml");
+        } else if (lose == true) {
+            tiledMap = new TmxMapLoader().load("Maps/Lose.xml");
+        }
+    }
 
 
     @Override
-    protected void drawGame() {
+    public void drawGame() {
 
     }
 

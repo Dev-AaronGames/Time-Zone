@@ -2,6 +2,7 @@ package com.missionbit.States;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -14,21 +15,30 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.missionbit.Actors.Character;
+import com.missionbit.Actors.Player;
 import com.missionbit.MyGdxGame;
 import com.missionbit.Objects.Controls;
 import com.missionbit.Actors.Ghost;
 import com.missionbit.Actors.Thug;
+
+import javax.xml.soap.Text;
 
 import static jdk.nashorn.internal.runtime.Context.DEBUG;
 
 public class InGame extends States {
     private Character character;
     private Controls controller;
+    private PolygonShape rect;
+    private FixtureDef fixtureDef;
+    private Fixture fixture;
 
+    private Player player;
     private TiledMapRenderer tiledMapRenderer;
     private TiledMap tiledMap;
     public World world;
@@ -38,8 +48,12 @@ public class InGame extends States {
     PolygonShape platformShape;
     private Array<Body> platforms;
     private int counter = 0;
-    private Ghost ghost;
-    private Thug thug;
+    public Ghost ghost;
+    BodyDef ghostDef;
+    Body ghostBody;
+    public Thug thug;
+    BodyDef thugDef;
+    Body thugBody;
 
     public InGame(MyGdxGame game) {
         super(game);
@@ -53,11 +67,51 @@ public class InGame extends States {
 
         ghost = new Ghost(50, 100, this);
         thug = new Thug(100, 200, this);
+        player = new Player(1, 4, this);
         controller = new Controls(camera);
 
         tiledMap = new TmxMapLoader().load("Maps/Map.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, States.PTM);
 
+        //Ghost Box2d
+        ghostDef = new BodyDef();
+        ghostDef.type = BodyDef.BodyType.DynamicBody;
+        ghostDef.position.set(ghost.getX(), ghost.getY() + 50);
+
+        ghostBody = world.createBody(ghostDef);
+
+        rect = new PolygonShape();
+        rect.set(new float[]{player.getWidth() / 3, 0, player.getWidth() / 3 + player.getWidth() / 2 - 10, 0,
+                player.getWidth() / 3 + player.getWidth() / 2 - 10, player.getHeight(), player.getWidth() / 3, player.getHeight()});
+
+        fixtureDef = new FixtureDef();
+        fixtureDef.shape = rect;
+        fixtureDef.density = 0.5f;
+        fixtureDef.friction = 0.4f;
+        fixture = ghostBody.createFixture(fixtureDef);
+
+        rect.dispose();
+
+        //Thug Box2D
+        thugDef = new BodyDef();
+        thugDef.type = BodyDef.BodyType.DynamicBody;
+        thugDef.position.set(ghost.getX(), ghost.getY() + 50);
+
+        thugBody = world.createBody(ghostDef);
+
+        rect = new PolygonShape();
+        rect.set(new float[]{thug.getWidth() / 3, 0, thug.getWidth() / 3 + thug.getWidth() / 2 - 10, 0,
+                thug.getWidth() / 3 + thug.getWidth() / 2 - 10, thug.getHeight(), thug.getWidth() / 3, thug.getHeight()});
+
+        fixtureDef = new FixtureDef();
+        fixtureDef.shape = rect;
+        fixtureDef.density = 0.5f;
+        fixtureDef.friction = 0.4f;
+        fixture = ghostBody.createFixture(fixtureDef);
+
+        rect.dispose();
+
+        //Platform Box2d
         platforms = new Array<Body>();
 
         platformDef = new BodyDef();
@@ -78,6 +132,11 @@ public class InGame extends States {
         }
 
     }
+
+    public InGame() {
+
+    }
+
 
     public void handleInput() {
         if (controller.isLeftPressed()) {
@@ -117,6 +176,8 @@ public class InGame extends States {
             game.setScreen(new PlayState(game));
             dispose();
         }
+        ghost.update(dt);
+        thug.update(dt);
     }
 
     @Override
@@ -147,7 +208,7 @@ public class InGame extends States {
             sr.begin(ShapeRenderer.ShapeType.Line);
             sr.setColor(Color.RED);
             controller.drawDebug(sr);
-            character.drawDebug(sr);
+//            character.drawDebug(sr);
             sr.end();
 
         }
@@ -166,6 +227,7 @@ public class InGame extends States {
         character.dispose();
         debugRenderer.dispose();
         game.dispose();
+        world.dispose();
     }
 }
 

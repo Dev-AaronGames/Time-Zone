@@ -5,31 +5,34 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.missionbit.MyGdxGame;
-import com.missionbit.States.States;
+import com.missionbit.States.PlayState;
 
 import static com.missionbit.MyGdxGame.HEIGHT;
 import static com.missionbit.MyGdxGame.WIDTH;
 
-public class Level3 extends States {
+public class Level3 extends PlayState {
     TiledMap tiledMap;
 
     public Level3(Camera gameCamera) {
         super(gameCamera);
-    }
+        tiledMap = new TmxMapLoader().load("Maps/Level3.xml");
 
-//    if (lose == true) {
-//
-//    } else if (win == true)
+        if (win == true) {
+            tiledMap = new TmxMapLoader().load("Maps/Level4.xml");
+        } else if (lose == true) {
+            tiledMap = new TmxMapLoader().load("Maps/Lose.xml");
+        }
+    }
 
 
     @Override
-    protected void drawGame() {
+    public void drawGame() {
 
     }
 
     protected Level3(MyGdxGame game) {
         super(game);
-        tiledMap = new TmxMapLoader().load("Level3.tmx");
+        tiledMap = new TmxMapLoader().load("Maps/Level3.tmx");
     }
 
     @Override
