@@ -1,120 +1,143 @@
 package com.missionbit.States;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
-import com.missionbit.Actors.Ghost;
+import com.missionbit.Actors.Controller;
 import com.missionbit.Actors.Player;
+import com.missionbit.Actors.Vortex;
 import com.missionbit.MyGdxGame;
-
-import net.java.games.input.Component;
-import net.java.games.input.Controller;
-import net.java.games.input.EventQueue;
-import net.java.games.input.Rumbler;
-
-import static jdk.nashorn.internal.runtime.regexp.joni.Config.DEBUG;
 
 public class PlayState extends States {
     public World world;
-    OrthographicCamera camera;
-    private Controller controller;
-    private TiledMapRenderer tiledMapRenderer;
+
+    private Controller controller;    private TiledMapRenderer tiledMapRenderer;
     private TiledMap tiledMap;
-//    Ghost ghost;
     Player ghost;
     Body groundBody;
     BodyDef groundDef;
     PolygonShape groundShape;
+Vortex vortex;
 
 
-    public PlayState(final Camera game) {
+    public PlayState(final MyGdxGame game) {
         super(game);
+        ghost = new Player(100,100,100);
+        controller = new Controller(camera);
+        groundDef = new BodyDef();
+        String bip = "bip.mp3";
+        vortex = new Vortex(200,100,new Image(new Texture("VortexChained.png")));
+//        groundShape = new PolygonShape();
 
-        ghost = new Player(100, 100, 100);
-//        controller = new Controller(camera) {
+        Array<Body> grounds = new Array<Body>();
+        int counter = 0;
+//        for (PolygonMapObject obj : tiledMap.getLayers().get("Collision").getObjects().getByType(PolygonMapObject.class)) {
+//            groundDef.position.set(obj.getPolygon().getX() * States.PTM, obj.getPolygon().getY() * States.PTM);
+//            grounds.add(world.createBody(groundDef));
+//            float[] vertices = obj.getPolygon().getVertices();
+//            for (int i = 0; i < vertices.length; i++) {
+//                vertices[i] = vertices[i] * States.PTM;
+//            }
+//            groundShape.set(vertices);
+//            grounds.get(counter).createFixture(groundShape, 0.0f);
+//            counter++;
+//        }
 
-            };
+    }
 
-            Array<Body> grounds = new Array<Body>();
-            int counter = 0;
+    @Override
+    public void render(float delta) {
+        super.render(delta);
+    }
 
+    @Override
+    public void update(float dt) {
+        vortex.update(dt);
+        if (controller.isLeftPressed()){
 
-        public PlayState(MyGdxGame game) {
+            ghost.moveLeft();
+        }else if(controller.isRightPressed()){
+
+            ghost.moveRight();
+
+        } else {
+            ghost.resetAnim();
 
         }
 
-        @Override
-        public void render(float delta) {
-//            super.render(delta);
+        if (controller.isJumpPressed()){
+            ghost.jump();
         }
 
-        @Override
-        public void update(float dt) {
-//            if (controller.isLeftPressed()) {
-//
-//                ghost.moveLeft();
-//            } else if (controller.isRightPressed()) {
-//
-//                ghost.moveRight();
-//
-//            } else {
-//                ghost.resetAnim();
-//
-//            }
-//
-//            if (controller.isJumpPressed()) {
-//                ghost.jump();
-//            }
-//
-//            if (controller.isAttackPressed()) {
-//                ghost.atack();
-//            }
-//            if (controller.isFirePressed()) {
-//                ghost.fire();
-//            }
-
-//            ghost.update(Gdx.graphics.getDeltaTime());
-//
-        if (Gdx.input.justTouched()) {
-            game.setScreen(new InGame(game));
-            dispose();
+        if (controller.isAttackPressed()){
+            ghost.atack();
         }
+        if (controller.isFirePressed()){
+            vortex.setPosition(new Vector2(200,100));
+            ghost.fire();
+        }else {
+            vortex.setPosition(new Vector2(2000000000,100000));
+        }
+
+        ghost.update(Gdx.graphics.getDeltaTime());
+
+        if (ghost.getBounds().overlaps(vortex.getBound()))
+        {
+
+          System.out.println("tp");
+
+        }
+
+//
+//        if (Gdx.input.justTouched()) {
+//            game.setScreen(new InGame(game));
+//            dispose();
+//        }
 //        world.step(1/60f, 6, 2); //Last Thing in this list
-        }
+    }
 
-        @Override
-        public void drawGame(String s) {
-            batch.draw(
-                    ghost.getTexture(Gdx.graphics.getDeltaTime()),
-                    ghost.getPosition().x,
-                    ghost.getPosition().y,
-                    250,
-                    250);
-//            controller.draw(batch);
-            ghost.draw(batch);
-        }
+    @Override
+    public void drawGame(String s) {
 
-        @Override
-        public void drawGame() {
-            game.batch.begin();
-            batch.draw(ghost.getTexture(Gdx.graphics.getDeltaTime()), ghost.getPosition().x, ghost.getPosition().y, 250, 250);
-//            background.draw();
+    }
 
-            game.batch.end();
-            game.sr.begin(ShapeRenderer.ShapeType.Line);
-            game.sr.setColor(Color.RED);
-//            controller.draw(game.sr);
-            game.sr.end();
-        }
+    @Override
+    public void drawGame() {
+        boolean b = false;
+
+        game.batch.begin();
+
+        batch.draw(vortex.getTexture(),vortex.getPosition().x,vortex.getPosition().y, 200,100);
+       vortex.bound.setSize(200,100);
+        batch.draw(
+                ghost.getTexture(Gdx.graphics.getDeltaTime()),
+                ghost.getPosition().x,
+                ghost.getPosition().y
+                ,100,100
+                );
+ghost.getBounds().setSize(100,100);
+        controller.draw(batch);
+
+        game.batch.end();
+
+        game.sr.begin(ShapeRenderer.ShapeType.Line);
+        game.sr.setColor(Color.RED);
+
+        controller.drawDebug(game.sr);
+        game.sr.rect(ghost.getBounds().x,ghost.getBounds().y,ghost.getBounds().width,ghost.getBounds().height);
+        game.sr.rect(vortex.getPosition().x,vortex.getPosition().y,vortex.getBound().width,vortex.getBound().height);
+
+        game.sr.end();
+    }
     }
 
 
