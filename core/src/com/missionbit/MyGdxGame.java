@@ -88,8 +88,8 @@ public class MyGdxGame extends Game {
             Gdx.gl.glClearColor(0.57f, 0.77f, 0.85f, 1);
             batch.begin();
 
-            batch.draw(img, 100, 100);
-            batch.draw(img1, 0, 0);
+//            batch.draw(img, 100, 100);
+//            batch.draw(img1, 0, 0);
 
             batch.end();
         }

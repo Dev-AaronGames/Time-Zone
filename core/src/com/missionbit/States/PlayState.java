@@ -1,8 +1,10 @@
 package com.missionbit.States;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -24,33 +26,37 @@ public class PlayState extends States {
     private TiledMap tiledMap;
     Player ghost;
     Body groundBody;
-    BodyDef groundDef;
-    PolygonShape groundShape;
+    public BodyDef groundDef;
+    public PolygonShape groundShape;
 Vortex vortex;
 
 
-    public PlayState(final MyGdxGame game) {
+    public PlayState(final Camera game) {
         super(game);
         ghost = new Player(100,100,100);
         controller = new Controller(camera);
         groundDef = new BodyDef();
         String bip = "bip.mp3";
         vortex = new Vortex(200,100,new Image(new Texture("VortexChained.png")));
-//        groundShape = new PolygonShape();
+        groundShape = new PolygonShape();
 
         Array<Body> grounds = new Array<Body>();
         int counter = 0;
-//        for (PolygonMapObject obj : tiledMap.getLayers().get("Collision").getObjects().getByType(PolygonMapObject.class)) {
-//            groundDef.position.set(obj.getPolygon().getX() * States.PTM, obj.getPolygon().getY() * States.PTM);
-//            grounds.add(world.createBody(groundDef));
-//            float[] vertices = obj.getPolygon().getVertices();
-//            for (int i = 0; i < vertices.length; i++) {
-//                vertices[i] = vertices[i] * States.PTM;
-//            }
-//            groundShape.set(vertices);
-//            grounds.get(counter).createFixture(groundShape, 0.0f);
-//            counter++;
-//        }
+        for (PolygonMapObject obj : tiledMap.getLayers().get("Collision").getObjects().getByType(PolygonMapObject.class)) {
+            groundDef.position.set(obj.getPolygon().getX() * States.PTM, obj.getPolygon().getY() * States.PTM);
+            grounds.add(world.createBody(groundDef));
+            float[] vertices = obj.getPolygon().getVertices();
+            for (int i = 0; i < vertices.length; i++) {
+                vertices[i] = vertices[i] * States.PTM;
+            }
+            groundShape.set(vertices);
+            grounds.get(counter).createFixture(groundShape, 0.0f);
+            counter++;
+        }
+
+    }
+
+    public PlayState(MyGdxGame game) {
 
     }
 

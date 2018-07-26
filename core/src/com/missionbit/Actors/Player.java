@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.missionbit.States.InGame;
 
 
 public class Player {
@@ -28,6 +29,21 @@ public class Player {
     private int maxhp = 100;
     Texture img;
     private float stateTime;
+    private float width;
+    private float height;
+
+    public Player(int hp, int x, InGame inGame) {
+
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
     private enum AnimState{JUMPING,ATTACKING,RUNING,IDOLING,DEATH,FIRE}
     private AnimState currentState, previousState;
     private boolean isFire;
@@ -50,7 +66,7 @@ public Rectangle getBounds(){return hurtbox2;}
         img = new Texture("Characters/Ghost.png");
 
         hitbox2 = new Rectangle();
-        position = new Vector2(x, y);
+        position = new Vector2();
         hurtbox2 = new Rectangle();
         hurtbox2.setWidth(32);
         hurtbox2.setHeight(32);

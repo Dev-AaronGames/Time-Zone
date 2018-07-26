@@ -2,10 +2,16 @@ package com.missionbit.Levels;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.utils.Array;
 import com.missionbit.MyGdxGame;
 import com.missionbit.States.PlayState;
+import com.missionbit.States.States;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -37,20 +43,53 @@ public class Level1 extends PlayState {
         } else if (lose == true) {
             tiledMap = new TmxMapLoader().load("Maps/Lose.xml");
         }
-        jb.setVisible(true);
-        jb.setSize(400, 200);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        jb.setIcon(new ImageIcon("C:\\Users\\NUZHAT\\Desktop\\Projects\\Time-Zone\\android\\assets\\GameVortex.png"));
-        jp.add(jb);
-        jb.add(jp);
 
-        jb.validate();
+//        jb.setVisible(true);
+//        jb.setSize(400, 200);
+//        setDefaultCloseOperation(EXIT_ON_CLOSE);
+//
+//        jb.setIcon(new ImageIcon("C:\\Users\\NUZHAT\\Desktop\\Projects\\Time-Zone\\android\\assets\\GameVortex.png"));
+//        jp.add(jb);
+//        jb.add(jp);
+//
+//        jb.validate();
     }
 
 
     @Override
     public void drawGame() {
+        groundDef = new BodyDef();
+
+        groundShape = new PolygonShape();
+
+        Array<Body> grounds = new Array<Body>();
+        int counter = 0;
+        for (PolygonMapObject obj : tiledMap.getLayers().get("Collision").getObjects().getByType(PolygonMapObject.class)) {
+            groundDef.position.set(obj.getPolygon().getX() * States.PTM, obj.getPolygon().getY() * States.PTM);
+            grounds.add(world.createBody(groundDef));
+            float[] vertices = obj.getPolygon().getVertices();
+            for (int i = 0; i < vertices.length; i++) {
+                vertices[i] = vertices[i] * States.PTM;
+            }
+            groundShape.set(vertices);
+            grounds.get(counter).createFixture(groundShape, 0.0f);
+            counter++;
+        }
+
+        groundShape = new PolygonShape();
+
+        for (PolygonMapObject obj : tiledMap.getLayers().get("Killer").getObjects().getByType(PolygonMapObject.class)) {
+            groundDef.position.set(obj.getPolygon().getX() * States.PTM, obj.getPolygon().getY() * States.PTM);
+            grounds.add(world.createBody(groundDef));
+            float[] vertices = obj.getPolygon().getVertices();
+            for (int i = 0; i < vertices.length; i++) {
+                vertices[i] = vertices[i] * States.PTM;
+            }
+            groundShape.set(vertices);
+            grounds.get(counter).createFixture(groundShape, 0.0f);
+            counter++;
+        }
 
     }
 
