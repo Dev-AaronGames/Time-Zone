@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="8" height="8" tilewidth="32" tileheight="32" infinite="0" nextobjectid="19">
- <tileset firstgid="1" source="../../../../Nature_Tiles.tsx"/>
+ <tileset firstgid="1" source="Nature_Tiles.tsx"/>
  <tileset firstgid="1" name="LevelThree" tilewidth="1750" tileheight="1313" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image source="../../../../../Pictures/Saved Pictures/Backround_Tileset/4-color-assortment/prison ship.gif"/>
+   <image source="prison ship.gif"/>
   </tile>
  </tileset>
  <tileset firstgid="2" name="VortexChained" tilewidth="32" tileheight="32" tilecount="0" columns="2">
-  <image source="../../../../../Pictures/Saved Pictures/Backround_Tileset/VortexChained.png" width="64" height="96"/>
+  <image source="VortexChained.png" width="64" height="96"/>
  </tileset>
- <tileset firstgid="2" source="../../../../spikes.tsx"/>
- <tileset firstgid="2" source="../../../../../../../DungeonTileset.tsx"/>
- <tileset firstgid="2" source="../../../../../../../GameVortex.tsx"/>
- <tileset firstgid="2" source="../../../../../../../Ghost.tsx"/>
+ <tileset firstgid="2" source="spikes.tsx"/>
+ <tileset firstgid="2" source="DungeonTileset.tsx"/>
+ <tileset firstgid="2" source="GameVortex.tsx"/>
+ <tileset firstgid="2" source="Ghost.tsx"/>
  <tileset firstgid="2" name="spikes" tilewidth="32" tileheight="32" tilecount="25" columns="5">
-  <image source="../../../../../../Pictures/Saved Pictures/Backround_Tileset/Vortex/traps/spikes.png" width="164" height="160"/>
+  <image source="spikes.png" width="164" height="160"/>
  </tileset>
  <tileset firstgid="27" name="Tiles_32x32" tilewidth="32" tileheight="32" tilecount="0" columns="8">
-  <image source="../../../../../Pictures/Saved Pictures/Backround_Tileset/Vortex/Tiles_32x32.png" width="256" height="256"/>
+  <image source="Tiles_32x32.png" width="256" height="256"/>
  </tileset>
- <tileset firstgid="27" name="prison ship" tilewidth="32" tileheight="32" tilecount="80" columns="10">
-  <image source="../../../../../../Pictures/Saved Pictures/Backround_Tileset/4-color-assortment/prison ship.gif" width="320" height="256"/>
+ <tileset firstgid="27" name="prison ship" tilewidth="32" tileheight="32" tilecount="0" columns="10">
+  <image source="prison ship.gif" width="320" height="256"/>
  </tileset>
  <objectgroup name="Collision">
   <object id="1" x="32.5" y="190.5">

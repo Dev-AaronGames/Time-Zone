@@ -22,6 +22,7 @@ import static com.missionbit.MyGdxGame.HEIGHT;
 import static com.missionbit.MyGdxGame.WIDTH;
 import static java.lang.ref.FinalizerReference.add;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
+import static javax.swing.text.StyleConstants.Background;
 
 public class Level1 extends PlayState {
     TiledMap tiledMap;
@@ -36,6 +37,8 @@ public class Level1 extends PlayState {
         super(gameCamera);
         this.background = background;
         tiledMap = new TmxMapLoader().load("Maps/Level1.xml");
+        background = new Texture("Maps/Level1.xml");
+
         JOptionPane.showMessageDialog(null, "Defeat the Monsters and get to the \n HUNDRED YEAR WAR", "MONGOL CONQUEST", JOptionPane.INFORMATION_MESSAGE);
 
         if (win == true) {
@@ -118,7 +121,7 @@ public class Level1 extends PlayState {
     public void render (SpriteBatch sb) {
         //super.render(null);
         sb.begin();
-        sb.draw(background, 0, 0, MyGdxGame.WIDTH, MyGdxGame.HEIGHT);
+        sb.draw((Texture) Background, 0, 0, MyGdxGame.WIDTH, MyGdxGame.HEIGHT);
         sb.draw(playBtn, (MyGdxGame.WIDTH / 2) - (playBtn.getWidth() / 2), MyGdxGame.HEIGHT / 2);
         sb.end();
     }
