@@ -25,11 +25,11 @@ import static jdk.nashorn.internal.runtime.regexp.joni.Config.DEBUG;
 
 public class PlayState extends States {
     public World world;
-    public OrthographicCamera camera;
+    OrthographicCamera camera;
     private Controller controller;
     private TiledMapRenderer tiledMapRenderer;
     private TiledMap tiledMap;
-    //    Ghost ghost;
+//    Ghost ghost;
     Player ghost;
     Body groundBody;
     BodyDef groundDef;
@@ -40,71 +40,13 @@ public class PlayState extends States {
         super(game);
 
         ghost = new Player(100, 100, 100);
-        controller = new Controller(camera) {
-                @Override
-            public Controller[] getControllers() {
-                return new Controller[0];
-            }
+//        controller = new Controller(camera) {
 
-            @Override
-            public Type getType() {
-                return null;
-            }
-
-            @Override
-            public Component[] getComponents() {
-                return new Component[0];
-            }
-
-            @Override
-            public Component getComponent(Component.Identifier identifier) {
-                return null;
-            }
-
-            @Override
-            public Rumbler[] getRumblers() {
-                return new Rumbler[0];
-            }
-
-            @Override
-            public boolean poll() {
-                return false;
-            }
-
-            @Override
-            public void setEventQueueSize(int i) {
-
-            }
-
-            @Override
-            public EventQueue getEventQueue() {
-                return null;
-            }
-
-            @Override
-            public PortType getPortType() {
-                return null;
-            }
-
-            @Override
-            public int getPortNumber() {
-                return 0;
-            }
-
-            @Override
-            public String getName() {
-                return null;
-            }
             };
-            groundDef = new BodyDef();
-            
-        groundDef = new BodyDef();
-        groundShape = new PolygonShape();
 
             Array<Body> grounds = new Array<Body>();
             int counter = 0;
 
-        }
 
         public PlayState(MyGdxGame game) {
 
@@ -112,62 +54,65 @@ public class PlayState extends States {
 
         @Override
         public void render(float delta) {
-            super.render(delta);
+//            super.render(delta);
         }
 
         @Override
         public void update(float dt) {
-            if (controller.isLeftPressed()) {
+//            if (controller.isLeftPressed()) {
+//
+//                ghost.moveLeft();
+//            } else if (controller.isRightPressed()) {
+//
+//                ghost.moveRight();
+//
+//            } else {
+//                ghost.resetAnim();
+//
+//            }
+//
+//            if (controller.isJumpPressed()) {
+//                ghost.jump();
+//            }
+//
+//            if (controller.isAttackPressed()) {
+//                ghost.atack();
+//            }
+//            if (controller.isFirePressed()) {
+//                ghost.fire();
+//            }
 
-                ghost.moveLeft();
-            } else if (controller.isRightPressed()) {
-
-                ghost.moveRight();
-
-            } else {
-                ghost.resetAnim();
-
-            }
-
-            if (controller.isJumpPressed()) {
-                ghost.jump();
-            }
-
-            if (controller.isAttackPressed()) {
-                ghost.atack();
-            }
-            if (controller.isFirePressed()) {
-                ghost.fire();
-            }
-
-            ghost.update(Gdx.graphics.getDeltaTime());
+//            ghost.update(Gdx.graphics.getDeltaTime());
 //
         if (Gdx.input.justTouched()) {
             game.setScreen(new InGame(game));
             dispose();
         }
-        world.step(1/60f, 6, 2); //Last Thing in this list
+//        world.step(1/60f, 6, 2); //Last Thing in this list
         }
 
         @Override
         public void drawGame(String s) {
-
+            batch.draw(
+                    ghost.getTexture(Gdx.graphics.getDeltaTime()),
+                    ghost.getPosition().x,
+                    ghost.getPosition().y,
+                    250,
+                    250);
+//            controller.draw(batch);
+            ghost.draw(batch);
         }
 
         @Override
         public void drawGame() {
             game.batch.begin();
             batch.draw(ghost.getTexture(Gdx.graphics.getDeltaTime()), ghost.getPosition().x, ghost.getPosition().y, 250, 250);
-            controller.draw(batch);
+//            background.draw();
+
             game.batch.end();
             game.sr.begin(ShapeRenderer.ShapeType.Line);
             game.sr.setColor(Color.RED);
-
-
-            game.sr.begin(ShapeRenderer.ShapeType.Line);
-            game.sr.setColor(Color.RED);
-
-            controller.drawDebug(game.sr);
+//            controller.draw(game.sr);
             game.sr.end();
         }
     }

@@ -78,7 +78,6 @@ public class MyGdxGame extends Game {
         public void render () {
 
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            super.render();
             Gdx.gl.glClear(GL20.GL_STENCIL_VALUE_MASK);
 
             Gdx.gl.glClearColor(0.57f, 0.77f, 0.85f, 1);

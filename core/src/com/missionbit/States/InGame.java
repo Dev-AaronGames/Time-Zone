@@ -58,7 +58,7 @@ public class InGame extends States {
     public InGame(MyGdxGame game) {
         super(game);
 
-        tiledMap = new TmxMapLoader().load("Level1.tmx");
+        tiledMap = new TmxMapLoader().load("Maps/Map.xml");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
         Box2D.init();
@@ -117,7 +117,35 @@ public class InGame extends States {
         platformDef = new BodyDef();
         platformShape = new PolygonShape();
 
-        for (PolygonMapObject obj : tiledMap.getLayers().get("Platform").getObjects().getByType(PolygonMapObject.class)) {
+        for (PolygonMapObject obj : tiledMap.getLayers().get("Collision").getObjects().getByType(PolygonMapObject.class)) {
+            platformDef.position.set(obj.getPolygon().getX() * States.PTM, obj.getPolygon().getY() * States.PTM);
+            platforms.add(world.createBody((platformDef)));
+            float[] vertices = obj.getPolygon().getVertices();
+
+            for (int i = 0; i < vertices.length; i++) {
+                vertices[i] = vertices[i] * States.PTM;
+            }
+
+            platformShape.set(vertices);
+            platforms.get(counter).createFixture(platformShape, 0.0f);
+            counter++;
+        }
+
+        for (PolygonMapObject obj : tiledMap.getLayers().get("Tools").getObjects().getByType(PolygonMapObject.class)) {
+            platformDef.position.set(obj.getPolygon().getX() * States.PTM, obj.getPolygon().getY() * States.PTM);
+            platforms.add(world.createBody((platformDef)));
+            float[] vertices = obj.getPolygon().getVertices();
+
+            for (int i = 0; i < vertices.length; i++) {
+                vertices[i] = vertices[i] * States.PTM;
+            }
+
+            platformShape.set(vertices);
+            platforms.get(counter).createFixture(platformShape, 0.0f);
+            counter++;
+        }
+
+        for (PolygonMapObject obj : tiledMap.getLayers().get("Killers").getObjects().getByType(PolygonMapObject.class)) {
             platformDef.position.set(obj.getPolygon().getX() * States.PTM, obj.getPolygon().getY() * States.PTM);
             platforms.add(world.createBody((platformDef)));
             float[] vertices = obj.getPolygon().getVertices();
@@ -176,7 +204,6 @@ public class InGame extends States {
             game.setScreen(new PlayState(game));
             dispose();
         }
-        ghost.update(dt);
         thug.update(dt);
     }
 

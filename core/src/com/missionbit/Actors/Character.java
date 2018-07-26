@@ -67,12 +67,12 @@ public class Character extends InGame{
         setDebug(true);
         this.game = game;
 
-//        texture = new Texture("");
-//        force = new Vector2(0.5f, 0);
-//        anim = new Animation(new TextureRegion(texture), 8, 1f, 3, 3);
-//        setBounds(x, y, texture.getWidth() /  3, texture.getHeight() / 3);
-//        faceRight = true;
-//        tap = new Vector3();
+        texture = new Texture("Characters/Ghost.png");
+        force = new Vector2(0.5f, 0);
+        anim = new Animation(new TextureRegion(texture), 8, 1f, 3, 3);
+        setBounds(x, y, texture.getWidth() /  3, texture.getHeight() / 3);
+        faceRight = true;
+        tap = new Vector3();
 
         playerDef = new BodyDef();
         playerDef.type = BodyDef.BodyType.DynamicBody;

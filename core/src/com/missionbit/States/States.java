@@ -73,8 +73,8 @@ public abstract class States implements Screen {
     @Override
     public void render(float delta) {
         update(delta);
-        camera.update();
-        batch.setProjectionMatrix(camera.combined);
+//        camera.update();
+//        batch.setProjectionMatrix(camera.combined);
         drawGame();
     }
 
@@ -104,6 +104,9 @@ public abstract class States implements Screen {
         playBtn.dispose();
     }
 
+    public void update() {
+
+    }
 
     public AtomicIntegerFieldUpdater<String> getProperties() {
         return properties;

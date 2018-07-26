@@ -7,7 +7,11 @@ import java.util.Scanner;
 
 public class Ghost  {
     Texture img;
-   public Ghost(int hp, int x, int y) {
+    private float y;
+    private float x;
+    private Object position;
+
+    public Ghost(int hp, int x, int y) {
 
         img = new Texture("Ghost.png");
     }
@@ -113,6 +117,22 @@ public class Ghost  {
     System.out.println(" -------------------------- ");
     System.out.println(" ----Thanks for playing----");
     System.out.println(" -------------------------- ");
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public Texture getTexture(float deltaTime) {
+        return null;
+    }
+
+    public Object getPosition() {
+        return position;
     }
 }
 

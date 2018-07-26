@@ -29,6 +29,10 @@ public class Player {
     private float width;
     private float height;
 
+    public Player(int hp, int x, InGame inGame) {
+
+    }
+
     public float getWidth() {
         return width;
     }
