@@ -1,20 +1,33 @@
 package com.missionbit.Actors;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
-
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.missionbit.States.States;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Ghost  {
+public class Ghost {
     Texture img;
     private float y;
     private float x;
     private Object position;
 
-    public Ghost(int hp, int x, int y) {
-
-        img = new Texture("Ghost.png");
+    public Ghost() {
+        super();
     }
+
+//    @Override
+//    public void tick() {
+//        Object KeyInput;
+//        if (KeyInput.isDown(KeyEvent.VK_W)) jump(10);
+//        if (KeyInput.isDown(KeyEvent.VK_A)) dx = 2;
+//        if (KeyInput.isDown(KeyEvent.VK_D)) dx = 2;
+//
+//        if (KeyInput.wasReleased(KeyEvent.VK_A) || KeyInput.wasReleased(KeyEvent.VK_D)) dx = 0;
+//        super.tick;
+//    }
+
     public static void main(String[] args) {
         //objects(system)
         Scanner in = new Scanner(System.in);

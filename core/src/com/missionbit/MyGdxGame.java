@@ -7,12 +7,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapImageLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
@@ -26,8 +28,11 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.missionbit.States.PlayState;
+
+import java.awt.Image;
 import java.util.HashMap;
 import javax.swing.JOptionPane;
+import javax.xml.soap.Text;
 
 public class MyGdxGame extends Game {
 	public SpriteBatch batch;
@@ -61,7 +66,7 @@ public class MyGdxGame extends Game {
         Gdx.gl.glClearColor(0.75f, 0.75f, 0.75f, 1);
 
         //Story
-        JOptionPane.showMessageDialog(null, "They banished me, \n I care too much to let them get away with this, \n I need to get back.", TITLE, JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "They banished me, \n I care too much to let them get away with this, \n I need to get back to put them into there place \n Or I might as well be stuck in the past, \n forgotten forever.", TITLE, JOptionPane.INFORMATION_MESSAGE);
         System.out.println("Hello World!!!! - Make sure to update every time you make/complete a task.");
 
         img = new Texture("GameVortex.png");
@@ -83,8 +88,8 @@ public class MyGdxGame extends Game {
             Gdx.gl.glClearColor(0.57f, 0.77f, 0.85f, 1);
             batch.begin();
 
-            batch.draw(img, 0, 0);
-            batch.draw(img1, 100, 100);
+            batch.draw(img, 100, 100);
+            batch.draw(img1, 0, 0);
 
             batch.end();
         }
