@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
 import com.missionbit.Actors.Controller;
 import com.missionbit.Actors.Player;
+import com.missionbit.Actors.Snake;
 import com.missionbit.Actors.Vortex;
 import com.missionbit.MyGdxGame;
 
@@ -27,12 +28,17 @@ public class PlayState extends States {
     BodyDef groundDef;
     PolygonShape groundShape;
 Vortex vortex;
+    Array<Snake> snakes;
 
 
     public PlayState(final MyGdxGame game) {
         super(game);
         ghost = new Player(100,100,100);
-        controller = new Controller(camera);
+        snakes = new Array<Snake>();
+        for (int i = 0 ; i < 1 ; i++){
+            snakes.add(new Snake(500,100));
+        }
+        controller = new Controller(camera,ghost);
         groundDef = new BodyDef();
         String bip = "bip.mp3";
         vortex = new Vortex(200,100,new Image(new Texture("VortexChained.png")));
@@ -51,7 +57,7 @@ Vortex vortex;
 //            grounds.get(counter).createFixture(groundShape, 0.0f);
 //            counter++;
 //        }
-
+Gdx.input.setInputProcessor(controller);
     }
 
     @Override
@@ -90,10 +96,16 @@ Vortex vortex;
 
         ghost.update(Gdx.graphics.getDeltaTime());
 
+        for (Snake s : snakes){
+
+            s.update();
+
+        }
+
         if (ghost.getBounds().overlaps(vortex.getBound()))
         {
 
-          System.out.println("tp");
+          System.out.println("You Win!");
 
         }
 
@@ -125,9 +137,21 @@ Vortex vortex;
                 ,100,100
                 );
 ghost.getBounds().setSize(100,100);
-        controller.draw(batch);
+for (Snake s : snakes){
+
+    //batch.draw(s.getTexture(Gdx.graphics.getDeltaTime()), s.getPosition().x, s.getPosition().y,100,100);
+
+
+
+
+
+}
+
+      //  controller.draw(batch);
 
         game.batch.end();
+
+controller.stage.draw();
 
         game.sr.begin(ShapeRenderer.ShapeType.Line);
         game.sr.setColor(Color.RED);
