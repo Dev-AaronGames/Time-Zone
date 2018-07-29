@@ -5,13 +5,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.missionbit.States.InGame;
 
 
 public class Player {
     Texture runSheet,attackSheet,jumpSheet;
     private com.badlogic.gdx.graphics.g2d.Animation<TextureRegion> runanim,afkanim,jumpanim,fireanim,atackanim,dedanim;
+
     private Animation an;
     boolean atkIsActive;
     Rectangle hurtbox2;
@@ -25,9 +29,26 @@ public class Player {
     private int maxhp = 100;
     Texture img;
     private float stateTime;
+    private float width;
+    private float height;
+
+    public Player(int hp, int x, InGame inGame) {
+
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
     private enum AnimState{JUMPING,ATTACKING,RUNING,IDOLING,DEATH,FIRE}
     private AnimState currentState, previousState;
     private boolean isFire;
+private Rectangle vorHitbox;
+public Rectangle getBounds(){return hurtbox2;}
 
     public Vector2 getPosition() {
         return position;
@@ -40,12 +61,15 @@ public class Player {
 
         currentState = AnimState.IDOLING;
         previousState = currentState;
-
+        Image vortex = new Image(new Texture("VortexChained.png"));
         velocity = new Vector2();
         img = new Texture("Characters/Ghost.png");
+
         hitbox2 = new Rectangle();
-        position = new Vector2(x, y);
+        position = new Vector2();
         hurtbox2 = new Rectangle();
+        hurtbox2.setWidth(32);
+        hurtbox2.setHeight(32);
         hitbox2.set(x, y, img.getWidth(), img.getHeight());
 
         isAttacking = false;
@@ -58,7 +82,6 @@ public class Player {
         com.badlogic.gdx.utils.Array<TextureRegion> attackFrames = new com.badlogic.gdx.utils.Array<TextureRegion>();
         com.badlogic.gdx.utils.Array<TextureRegion> fireFrames = new com.badlogic.gdx.utils.Array<TextureRegion>();
         com.badlogic.gdx.utils.Array<TextureRegion> dedFrames = new com.badlogic.gdx.utils.Array<TextureRegion>();
-
 
         for (int i = 0; i < 10 ; i++){
             afkFrames.add(tmp1[0][i]);
@@ -96,6 +119,13 @@ public class Player {
         }
    }
 
+
+   public void vortex(){
+
+
+
+   }
+
     public void jump() {
         velocity.y = 275;
     }
@@ -116,7 +146,8 @@ public class Player {
 
     public void fire(){
         if (isFire = true){
-
+            Image vortex = new Image(new Texture("VortexChained.png"));
+            vortex.setPosition(200,100);
     }
     }
 
@@ -202,7 +233,7 @@ public class Player {
         else {
             currentState = AnimState.JUMPING;
         }
-
+hurtbox2.setPosition(position);
 
 
     }
@@ -214,7 +245,11 @@ public class Player {
 
 
     }
+    public void drawDebug(ShapeRenderer sr){
 
+        sr.rect(vorHitbox.x,vorHitbox.y,vorHitbox.width,vorHitbox.height);
+
+    }
 
 }
 

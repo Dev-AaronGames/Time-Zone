@@ -33,7 +33,7 @@ public class Thug extends Character {
         playerDef.type = BodyDef.BodyType.DynamicBody;
         playerDef.position.set(x, y);
 
-        character = new Character(x, y, this, game);
+        character = new Character(x, y, this);
 
         playerBody = game.world.createBody(playerDef);
 

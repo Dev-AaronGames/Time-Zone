@@ -31,7 +31,7 @@
  <tileset firstgid="1183" name="obj_misk_atlas" tilewidth="32" tileheight="32" tilecount="1024" columns="32">
   <image source="../../../../../../Pictures/Saved Pictures/Backround_Tileset/Atlas/obj_misk_atlas.png" width="1024" height="1024"/>
  </tileset>
- <objectgroup name="Death">
+ <objectgroup name="Killers">
   <object id="11" x="366.182" y="886.727">
    <polygon points="0,0 -2.54545,2.36364 -8.18182,-0.727273 -11.8182,-11.0909 -6.72727,-16.5455 6.72727,-17.8182 13.4545,-10.5455 11.8182,0 5.45455,7.27273 -4,8.54545 -3.63636,6.36364 0,6"/>
   </object>

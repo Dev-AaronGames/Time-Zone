@@ -17,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.missionbit.States.InGame;
 import com.missionbit.States.States;
 
-public class Character extends Actor{
+public class Character extends InGame{
     public World world;
 
     public static final int GRAVITY = -15;
@@ -40,10 +40,6 @@ public class Character extends Actor{
     private Character tapPosition;
     public TextureRegion getTexture;
 
-    public Character(int x, int y, Thug thug, InGame game) {
-
-        this.game = game;
-    }
 
     public void setDebug(boolean debug) {
         this.debug = debug;
@@ -67,15 +63,16 @@ public class Character extends Actor{
 
 
     public Character(int i, int i1, InGame game) {
+        super();
         setDebug(true);
         this.game = game;
 
-//        texture = new Texture("");
-//        force = new Vector2(0.5f, 0);
-//        anim = new Animation(new TextureRegion(texture), 8, 1f, 3, 3);
-//        setBounds(x, y, texture.getWidth() /  3, texture.getHeight() / 3);
-//        faceRight = true;
-//        tap = new Vector3();
+        texture = new Texture("Characters/Ghost.png");
+        force = new Vector2(0.5f, 0);
+        anim = new Animation(new TextureRegion(texture), 8, 1f, 3, 3);
+        setBounds(x, y, texture.getWidth() /  3, texture.getHeight() / 3);
+        faceRight = true;
+        tap = new Vector3();
 
         playerDef = new BodyDef();
         playerDef.type = BodyDef.BodyType.DynamicBody;

@@ -16,7 +16,7 @@ public class Snake {
 
 
     public Snake(int x, int y) {
-        img = new Texture("Thug.png");
+        img = new Texture("Snake.png");
         hitbox = new Rectangle();
         position = new Vector2(x, y);
         hurtbox = new Rectangle();
@@ -31,6 +31,7 @@ public class Snake {
 
 
         }
+
 
 
 //            if (hitbox.contains())
